@@ -16,7 +16,7 @@ environment. For more information, check:
 
 With golang installing artreepie is as simple as:
 
-    $ go install github.com/tncardoso/artreepie
+    $ go get github.com/tncardoso/artreepie
 
 If you want to use the server mode then 
 [MongoDB](http://www.mongodb.org/downloads) is also needed.
