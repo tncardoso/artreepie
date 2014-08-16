@@ -1,0 +1,12 @@
+{
+    "app": 
+    {
+        "key": "twitter app key",
+        "secret": "twitter app secret"
+    },
+    "user":
+    {
+        "token": "user token",
+        "secret": "user secret"
+    }
+}
