@@ -20,6 +20,82 @@ const (
 	HEIGHT = 1024
 )
 
+// Square function for twik
+func sqFn(args []interface{}) (interface{}, error) {
+	if len(args) != 1 {
+		return nil, errors.New("sq expects one value")
+	}
+
+	switch arg := args[0].(type) {
+    case int64:
+		return arg*arg, nil
+    case float64:
+		return arg*arg, nil
+	default:
+		return nil, fmt.Errorf("cannot sin %#v", arg)
+	}
+}
+
+// Less than function for twik
+func ltFn(args []interface{}) (interface{}, error) {
+	if len(args) != 2 {
+		return nil, errors.New("lt expects two values")
+	}
+
+	switch arg1 := args[0].(type) {
+    case int64:
+	    switch arg2 := args[1].(type) {
+        case int64:
+            return arg1 < arg2, nil
+        case float64:
+            return float64(arg1) < arg2, nil
+	    default:
+		    return nil, fmt.Errorf("lt cannot operate with %#v", arg2)
+        }
+    case float64:
+	    switch arg2 := args[1].(type) {
+        case int64:
+            return arg1 < float64(arg2), nil
+        case float64:
+            return arg1 < arg2, nil
+	    default:
+		    return nil, fmt.Errorf("lt cannot operate with %#v", arg2)
+        }
+	default:
+		return nil, fmt.Errorf("lt cannot operate with %#v", arg1)
+	}
+}
+
+// Greater than function for twik
+func gtFn(args []interface{}) (interface{}, error) {
+	if len(args) != 2 {
+		return nil, errors.New("gt expects two values")
+	}
+
+	switch arg1 := args[0].(type) {
+    case int64:
+	    switch arg2 := args[1].(type) {
+        case int64:
+            return arg1 > arg2, nil
+        case float64:
+            return float64(arg1) > arg2, nil
+	    default:
+		    return nil, fmt.Errorf("gt cannot operate with %#v", arg2)
+        }
+    case float64:
+	    switch arg2 := args[1].(type) {
+        case int64:
+            return arg1 > float64(arg2), nil
+        case float64:
+            return arg1 > arg2, nil
+	    default:
+		    return nil, fmt.Errorf("gt cannot operate with %#v", arg2)
+        }
+	default:
+		return nil, fmt.Errorf("gt cannot operate with %#v", arg1)
+	}
+}
+
 // Sin function for twik
 func sinFn(args []interface{}) (interface{}, error) {
 	if len(args) != 1 {
@@ -188,6 +264,9 @@ func calcPixel(ctx context.Context, i, j int, code string) (uint8, error) {
 	scope.Create("%", modFn)
 	scope.Create("rnd", randFn)
 	scope.Create("sqrt", sqrtFn)
+	scope.Create("sq", sqFn)
+	scope.Create("<", ltFn)
+	scope.Create(">", gtFn)
 
 	// Available values
 	scope.Create("i", int64(i))
